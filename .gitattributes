@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 branch merge=theirs
+=======
+branch merge=ours
+>>>>>>> 9a332d0... Update .gitattributes
