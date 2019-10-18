@@ -19,5 +19,5 @@ jobs:
 
     - name: Deploy
       run: |-
-        echo "${{ secret.${{ matrix.country }} }}"
+        echo "${{ secrets.${{ matrix.country }} }}"
  
