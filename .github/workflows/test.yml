@@ -19,5 +19,5 @@ jobs:
 
     - name: Deploy
       run: |-
-        echo ${{ join('Hello', 'world!') }} 
+        echo "${{ join('Hello', 'world!') }}"
  
