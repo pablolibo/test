@@ -12,6 +12,7 @@ jobs:
     strategy:
       matrix:
         country: [chile, spain]
+        pais: [CHILE, ESPANA]
 
     steps:
     - name: Checkout repo
@@ -19,5 +20,5 @@ jobs:
 
     - name: Deploy
       run: |-
-        echo "${{ secrets.${{ matrix.country }} }}"
+        echo "${{ matrix.country }}-${{ matrix.pais }}"
  
