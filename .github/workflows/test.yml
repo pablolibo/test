@@ -1,0 +1,23 @@
+name: Deploy development
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  Development:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        country: [chile, spain, portugal, panama, cr]
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v1
+
+    - name: Deploy
+      run: |-
+        echo ${{ join('Hello', 'world!') }} 
+ 
