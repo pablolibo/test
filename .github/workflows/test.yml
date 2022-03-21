@@ -13,9 +13,21 @@ on:
 jobs:
   cd:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+           - country: chile
+             environment: development
+             env_file: .env.development.chile 
+           - country: spain
+             environment: development
+             env_file: .env.development.spain
+           - country: guatemala
+             environment: development
+             env_file: .env.development.guatemala
     if: |
       contains(github.event.comment.html_url, '/pull/') && 
-      contains(github.event.comment.body, '/deploy')    
+      contains(github.event.comment.body, '/deploy ${{ matrix.country }}')    
     steps:
       - name: Message success
         if: ${{ success() }}
