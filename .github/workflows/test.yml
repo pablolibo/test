@@ -12,7 +12,7 @@ on:
 
 jobs:
   cd:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     if: |
       contains(github.event.comment.html_url, '/pull/') && 
       contains(github.event.comment.body, '/deploy')    
