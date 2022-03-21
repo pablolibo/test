@@ -1,27 +1,42 @@
-name: Deploy development
+name: test
 
 on:
-  push:
-    branches:
-      - master
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - ready_for_review
+      - synchronize
+  issue_comment:
+    types: [created, edited]
 
 jobs:
-  Development:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        country: [chile, spain]
-        pais: [CHILE, ESPANA]
-        include:
-          - country: chile
-            capital: santiago
-
+  cd:
+    runs-on: self-hosted
+    if: |
+      contains(github.event.comment.html_url, '/pull/') && 
+      contains(github.event.comment.body, '/deploy')    
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v1
+      - name: Message success
+        if: ${{ success() }}
+        uses: actions/github-script@v4
+        with:
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Deployment succeeded! ✅',
+            });
 
-    - name: Deploy
-      run: |-
-        echo "${{ matrix.country }}-${{ matrix.capital }}"
- 
+      - name: Message failure
+        if: ${{ failure() }}
+        uses: actions/github-script@v4
+        with:
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Deployment failed! ❌',
+            });       
