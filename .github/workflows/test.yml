@@ -27,7 +27,7 @@ jobs:
             env_file: .env.development.guatemala
     if: |
       contains(github.event.comment.html_url, '/pull/') && 
-      contains(github.event.comment.body, '/deploy ${{ matrix.country }}')    
+      contains(github.event.comment.body, '/deploy chile')    
     steps:
       - name: Message success
         if: ${{ success() }}
