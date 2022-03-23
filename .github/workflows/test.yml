@@ -1,3 +1,4 @@
+
 name: test
 
 on:
@@ -15,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       contains(github.event.comment.html_url, '/pull/') && 
-      contains(github.event.comment.body, '/deploy chile')    
+      contains(github.event.comment.body, '/deploy')    
     steps:
       - name: Message success
         if: ${{ success() }}
@@ -28,7 +29,6 @@ jobs:
               repo: context.repo.repo,
               body: 'Deployment succeeded! ✅',
             });
-
       - name: Message failure
         if: ${{ failure() }}
         uses: actions/github-script@v4
@@ -40,18 +40,3 @@ jobs:
               repo: context.repo.repo,
               body: 'Deployment failed! ❌',
             });
-
-      - name: Message success
-        if: ${{ success() }}
-        run: |
-          curl -s -X POST -H "Content-Type: application/json" -d '${{ env.SLACK_TEXT }}' ${{ secrets.SLACK_WEBHOOK }}
-        env:
-          SLACK_TEXT: '{ "channel": "#pj-front-deploy", "username": "deploy", "icon_emoji": ":bot:", "text": "Deployment success!" }'
-
-      - name: Message failure
-        if: ${{ failure() }}
-        run: |
-          curl -s -X POST -H "Content-Type: application/json" -d '${{ env.SLACK_TEXT }}' ${{ secrets.SLACK_WEBHOOK }}
-        env:
-          SLACK_TEXT: '{ "channel": "#pj-front-deploy", "username": "deploy", "icon_emoji": ":bot:", "text": "Deployment failed!" }'
-
