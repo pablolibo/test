@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - coun1a1``!§1§2try: chile
+          - country: chile
             environment: development
             env_file: .env.development.chile 
           - country: spain
