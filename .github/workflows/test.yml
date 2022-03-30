@@ -10,6 +10,18 @@ on:
         - development
         - stage
         - production 
+      country:
+        description: 'Country deployment'     
+        required: true
+        default: 'chile' 
+        type: choice
+        options:
+        - chile
+        - spain
+        - costarica
+        - portugal
+        - guatemala
+        - panama
 
 jobs:
   log-the-inputs:
