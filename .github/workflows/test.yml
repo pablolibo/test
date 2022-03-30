@@ -24,17 +24,24 @@ on:
         - panama
 
 jobs:
-  development:
-    if: github.event.inputs.environment == 'development'
+  deployment:
+    strategy:
+      matrix:
+        include:
+          - country: chile
+            development: DEVELOPMENT
+            stage: STAGE
+            production: PRODUCTION
+          - country: spain
+            development: DEVELOPMENT
+            stage: STAGE
+            production: PRODUCTION
     runs-on: ubuntu-latest
 
     steps:
-      - name: chile
-        if: github.event.inputs.country == 'chile'
+      - name: check
+        if: github.event.inputs.country == matrix.country
         run: |
-          echo "chile"
+          echo ${{ matrix.country }}
           
-      - name: spain
-        if: github.event.inputs.country == 'spain'
-        run: |
-          echo "spain"
+
