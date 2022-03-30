@@ -24,9 +24,17 @@ on:
         - panama
 
 jobs:
-  log-the-inputs:
+  development:
+    if: github.event.inputs.environment == 'development'
     runs-on: ubuntu-latest
 
     steps:
-      - run: |
-          echo "${{ secrets[github.event.inputs.environment][github.event.inputs.country] }}"
+      - name: chile
+        if: github.event.inputs.country == 'chile'
+        run: |
+          echo "chile"
+          
+      - name: spain
+        if: github.event.inputs.country == 'spain'
+        run: |
+          echo "spain"
