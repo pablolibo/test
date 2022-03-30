@@ -26,30 +26,7 @@ on:
 jobs:
   log-the-inputs:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - environment: development
-            chile: chile
-            spain: spain
-            costarica: costarica
-            portugal: portugal
-            guatemala: guatemala
-            panama: panama
-          - environment: stage
-            chile: chile
-            spain: spain
-            costarica: costarica
-            portugal: portugal
-            guatemala: guatemala
-            panama: panama
-          - environment: production
-            chile: chile
-            spain: spain
-            costarica: costarica
-            portugal: portugal
-            guatemala: guatemala
-            panama: panama
+
     steps:
       - run: |
           echo "${{ secrets[github.event.inputs.environment][github.event.inputs.country] }}"
