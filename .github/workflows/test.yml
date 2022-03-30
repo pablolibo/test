@@ -40,6 +40,4 @@ jobs:
             panama: panama
     steps:
       - run: |
-          echo "${{ secrets[matrix.github.event.inputs.environment] }}"
-        env:
-          ENVIRONMENT: ${{ github.event.inputs.environment }}
+          echo "${{ secrets[github.event.inputs.environment][github.event.inputs.country] }}"
