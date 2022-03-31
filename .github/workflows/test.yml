@@ -36,9 +36,41 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-      - name: check
+      - name: run
         if: github.event.inputs.country == matrix.country
         run: |
-          echo ${{ matrix.country }}
+          echo "${{ matrix.country }} development" 
           
+  stage:
+    if: github.event.inputs.environment == 'stage'
+    strategy:
+      matrix:
+        include:
+          - country: chile
+            variable: env.DEVELOPMENT
+          - country: spain
+            variable: env.DEVELOPMENT
 
+    runs-on: ubuntu-latest
+    steps:
+      - name: run
+        if: github.event.inputs.country == matrix.country
+        run: |
+          echo "${{ matrix.country }} stage" 
+
+  production:
+    if: github.event.inputs.environment == 'production'
+    strategy:
+      matrix:
+        include:
+          - country: chile
+            variable: env.DEVELOPMENT
+          - country: spain
+            variable: env.DEVELOPMENT
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: run
+        if: github.event.inputs.country == matrix.country
+        run: |
+          echo "${{ matrix.country }} production"
