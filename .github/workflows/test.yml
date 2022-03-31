@@ -1,57 +1,61 @@
-name: test
+name: 'TEST'
 
-on:
-  pull_request_target:
-    types:
-      - opened
-      - edited
-      - ready_for_review
-      - synchronize
-  issue_comment:
-    types: [created, edited]
+on: 
+  workflow_dispatch:
+    branches: [master]
+    inputs: 
+      environment:
+        description: 'Environment deployment'     
+        required: true
+        default: 'development' 
+        type: choice
+        options:
+        - development
+        - stage
+      country:
+        description: 'Country deployment'     
+        required: true
+        default: 'chile' 
+        type: choice
+        options:
+        - chile
+        - spain
+        - costarica
+        - portugal
+        - guatemala
+        - panama
 
 jobs:
-  cd:
+  development:
+    if: github.event.inputs.environment == 'development'
+    strategy:
+      matrix:
+        include:
+          - country: chile
+            variable: env.DEVELOPMENT
+          - country: spain
+            variable: env.DEVELOPMENT
+
     runs-on: ubuntu-latest
-    if: |
-      contains(github.event.comment.html_url, '/pull/') && 
-      contains(github.event.comment.body, '/deploy chile')    
     steps:
-      - name: Message success
-        if: ${{ success() }}
-        uses: actions/github-script@v4
-        with:
-          script: |
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: 'Deployment succeeded! ✅',
-            });
-
-      - name: Message failure
-        if: ${{ failure() }}
-        uses: actions/github-script@v4
-        with:
-          script: |
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: 'Deployment failed! ❌',
-            });
-
-      - name: Message success
-        if: ${{ success() }}
+      - name: run
+        if: github.event.inputs.country == matrix.country
         run: |
-          curl -s -X POST -H "Content-Type: application/json" -d '${{ env.SLACK_TEXT }}' ${{ secrets.SLACK_WEBHOOK }}
-        env:
-          SLACK_TEXT: '{ "channel": "#pj-front-deploy", "username": "deploy", "icon_emoji": ":bot:", "text": "Deployment success!" }'
+          echo "${{ matrix.country }} development" 
+          
+  stage:
+    if: github.event.inputs.environment == 'stage'
+    strategy:
+      matrix:
+        include:
+          - country: chile
+            variable: env.DEVELOPMENT
+          - country: spain
+            variable: env.DEVELOPMENT
 
-      - name: Message failure
-        if: ${{ failure() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: run
+        if: github.event.inputs.country == matrix.country
         run: |
-          curl -s -X POST -H "Content-Type: application/json" -d '${{ env.SLACK_TEXT }}' ${{ secrets.SLACK_WEBHOOK }}
-        env:
-          SLACK_TEXT: '{ "channel": "#pj-front-deploy", "username": "deploy", "icon_emoji": ":bot:", "text": "Deployment failed!" }'
-
+          echo "${{ matrix.country }} stage" 
