@@ -2,11 +2,9 @@ name: 'TEST'
 
 on: 
   workflow_dispatch:
-    inputs:
-      tags:
-        description: 'Select tag'
-        required: true 
-        type: boolean    
+    branches:
+      - master  
+    inputs: 
       environment:
         description: 'Environment deployment'     
         required: true
