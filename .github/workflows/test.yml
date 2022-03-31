@@ -28,7 +28,7 @@ jobs:
   development:
     if: |
       github.event.inputs.environment == 'development' && 
-      startsWith(github.ref, 'refs/tags/v'
+      startsWith(github.ref, 'refs/tags/v')
     strategy:
       matrix:
         include:
@@ -42,14 +42,14 @@ jobs:
       - name: run
         if: |
           github.event.inputs.environment == 'development' && 
-          startsWith(github.ref, 'refs/tags/v'
+          startsWith(github.ref, 'refs/tags/v')
         run: |
           echo "${{ matrix.country }} development" 
           
   stage:
     if: |
       github.event.inputs.environment == 'development' && 
-      startsWith(github.ref, 'refs/tags/v'
+      startsWith(github.ref, 'refs/tags/v')
     strategy:
       matrix:
         include:
@@ -63,6 +63,6 @@ jobs:
       - name: run
         if: |
           github.event.inputs.environment == 'development' && 
-          startsWith(github.ref, 'refs/tags/v'
+          startsWith(github.ref, 'refs/tags/v')
         run: |
           echo "${{ matrix.country }} stage" 
