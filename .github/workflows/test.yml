@@ -2,7 +2,6 @@ name: 'TEST'
 
 on: 
   workflow_dispatch:
-    branches: [master]
     inputs: 
       environment:
         description: 'Environment deployment'     
@@ -27,7 +26,9 @@ on:
 
 jobs:
   development:
-    if: github.event.inputs.environment == 'development'
+    if: |
+      github.event.inputs.environment == 'development' && 
+      startsWith(github.ref, 'refs/tags/v'
     strategy:
       matrix:
         include:
@@ -39,12 +40,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: run
-        if: github.event.inputs.country == matrix.country
+        if: |
+          github.event.inputs.environment == 'development' && 
+          startsWith(github.ref, 'refs/tags/v'
         run: |
           echo "${{ matrix.country }} development" 
           
   stage:
-    if: github.event.inputs.environment == 'stage'
+    if: |
+      github.event.inputs.environment == 'development' && 
+      startsWith(github.ref, 'refs/tags/v'
     strategy:
       matrix:
         include:
@@ -56,6 +61,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: run
-        if: github.event.inputs.country == matrix.country
+        if: |
+          github.event.inputs.environment == 'development' && 
+          startsWith(github.ref, 'refs/tags/v'
         run: |
           echo "${{ matrix.country }} stage" 
