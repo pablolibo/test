@@ -14,7 +14,7 @@ on:
       country:
         description: 'Country deployment'     
         required: true
-        default: 'chile' 
+        default: 'all' 
         type: choice
         options:
         - chile
@@ -23,6 +23,7 @@ on:
         - portugal
         - guatemala
         - panama
+        - all
 
 jobs:
   development:
@@ -41,14 +42,16 @@ jobs:
     steps:
       - name: run
         if: |
-          github.event.inputs.country == matrix.country && 
-          startsWith(github.ref, 'refs/tags/v')
+          github.event.inputs.country == matrix.country ||  
+          github.event.inputs.country == 'all' && 
+          startsWith(github.ref, 'refs/tags/v') 
         run: |
           echo "${{ matrix.country }} development" 
           
   stage:
     if: |
       github.event.inputs.environment == 'development' && 
+      github.event.inputs.country == 'all' && 
       startsWith(github.ref, 'refs/tags/v')
     strategy:
       matrix:
@@ -62,7 +65,8 @@ jobs:
     steps:
       - name: run
         if: |
-          github.event.inputs.environment == matrix.country && 
+          github.event.inputs.environment == matrix.country &&
+          github.event.inputs.country == 'all' && 
           startsWith(github.ref, 'refs/tags/v')
         run: |
           echo "${{ matrix.country }} stage" 
