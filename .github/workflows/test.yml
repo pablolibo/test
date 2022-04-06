@@ -32,7 +32,7 @@ jobs:
     steps:
       - name: run
         if: |
-          ${{ github.event.inputs.country == matrix.country || 
-          github.event.inputs.country == 'all' }}
+          github.event.inputs.country == 'spain' || 
+          github.event.inputs.country == 'all'
         run: |
           echo "${{ matrix.country }} ${{ github.event.inputs.country }}" 
