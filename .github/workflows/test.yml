@@ -35,4 +35,4 @@ jobs:
           ${{ github.event.inputs.country == matrix.country || 
           github.event.inputs.country == 'all' }}
         run: |
-          echo "${{ matrix.country }}" 
+          echo "${{ matrix.country }} ${{ github.event.inputs.country }}" 
