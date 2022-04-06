@@ -4,13 +4,6 @@ on:
   workflow_dispatch:
     inputs: 
       environment:
-        description: 'Environment deployment'     
-        required: true
-        default: 'development' 
-        type: choice
-        options:
-        - development
-        - stage
       country:
         description: 'Country deployment'     
         required: true
@@ -25,48 +18,13 @@ on:
         - panama
         - all
 
-jobs:
-  development:
+jobs:          
+  test:
     if: |
-      github.event.inputs.environment == 'development' && 
-      startsWith(github.ref, 'refs/tags/v')
-    strategy:
-      matrix:
-        include:
-          - country: chile
-            variable: env.DEVELOPMENT
-          - country: spain
-            variable: env.DEVELOPMENT
-
+      github.event.inputs.country == matrix.country || 
+      github.event.inputs.country == 'all'
     runs-on: ubuntu-latest
     steps:
       - name: run
-        if: |
-          github.event.inputs.country == matrix.country ||  
-          github.event.inputs.country == 'all' && 
-          startsWith(github.ref, 'refs/tags/v') 
         run: |
-          echo "${{ matrix.country }} development" 
-          
-  stage:
-    if: |
-      github.event.inputs.environment == 'development' && 
-      github.event.inputs.country == 'all' && 
-      startsWith(github.ref, 'refs/tags/v')
-    strategy:
-      matrix:
-        include:
-          - country: chile
-            variable: env.DEVELOPMENT
-          - country: spain
-            variable: env.DEVELOPMENT
-
-    runs-on: ubuntu-latest
-    steps:
-      - name: run
-        if: |
-          github.event.inputs.environment == matrix.country &&
-          github.event.inputs.country == 'all' && 
-          startsWith(github.ref, 'refs/tags/v')
-        run: |
-          echo "${{ matrix.country }} stage" 
+          echo "${{ matrix.country }}" 
