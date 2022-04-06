@@ -19,11 +19,20 @@ on:
 
 jobs:          
   test:
-    if: |
-      github.event.inputs.country == matrix.country || 
-      github.event.inputs.country == 'all'
+    strategy:
+      matrix:
+        include:
+          - country: chile
+            variable_file: env.development.chile
+            variable_secrets: ENV_DEVELOPMENT_CHILE
+          - country: spain
+            variable_file: env.development.spain
+            variable_secrets: ENV_DEVELOPMENT_SPAIN
     runs-on: ubuntu-latest
     steps:
       - name: run
+        if: |
+          github.event.inputs.country == matrix.country || 
+          github.event.inputs.country == 'all'
         run: |
           echo "${{ matrix.country }}" 
