@@ -28,11 +28,21 @@ jobs:
           - country: spain
             variable_file: env.development.spain
             variable_secrets: ENV_DEVELOPMENT_SPAIN
+
+
     runs-on: ubuntu-latest
     steps:
+
       - name: run
         if: |
-          github.event.inputs.country == '${{ matrix.country }}' || 
+          github.event.inputs.country == 'spain' || 
           github.event.inputs.country == 'all'
         run: |
-          echo "${{ matrix.country }} ${{ github.event.inputs.country }}" 
+          echo spain
+
+      - name: run
+        if: |
+          github.event.inputs.country == 'chile' || 
+          github.event.inputs.country == 'all'
+        run: |
+          echo chile
